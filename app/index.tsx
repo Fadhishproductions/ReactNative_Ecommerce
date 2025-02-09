@@ -4,7 +4,7 @@ import FrequentlyBought from "@/components/FrequentlyBought";
 import ProductDetails from "@/components/ProductDetails";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import Reviews from "@/components/Reviews";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 import { useFonts, Manrope_400Regular } from "@expo-google-fonts/manrope";
 
@@ -13,8 +13,12 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isWishlisted,setIswishlisted] = useState(false)
-  
-  let [fontsLoaded] = useFonts({
+
+  const scrollViewRef = useRef(null);
+  const sections = {
+    review: useRef(null),
+ };
+  let [fontsLoaded] = useFonts({ //fonts
       Manrope_400Regular,
     });
   
@@ -40,9 +44,21 @@ const Index = () => {
     fetchData();
   }, []);
 
+  const scrollToSection = (sectionName) => {
+    if (sections[sectionName]?.current && scrollViewRef.current) {
+      sections[sectionName].current.measureLayout(
+        scrollViewRef.current,
+        (x, y) => {
+          scrollViewRef.current.scrollTo({ y, animated: true });
+        },
+        () => console.error("Failed to measure layout") // Debugging
+      );
+    }
+  };
+
   return (
     <>
-      <ScrollView contentContainerStyle={[styles.scrollViewContainer, ]}>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={[styles.scrollViewContainer, ]}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
         ) : error ? (
@@ -53,9 +69,9 @@ const Index = () => {
               images={product.images}
               isBestSeller={Array.isArray(product.tags) && product.tags.includes("Best Seller")}
             />
-            <ProductDetails name={product?.name} variants={product?.variants || []}  rating={product?.rating || {}} description={product?.description} />
+            <ProductDetails scrollToSection={scrollToSection} name={product?.name} variants={product?.variants || []}  rating={product?.rating || {}} description={product?.description} />
             <ExpandableProductInfo description={product?.description} dimensions={product?.dimensions}/>
-            <Reviews reviews={product?.reviews || {}}/>
+            <Reviews ref={sections.review} reviews={product?.reviews || {}}/>
             <FrequentlyBought frequentlyBoughtWith={product?.frequentlyBoughtWith || []} />
 
           </>

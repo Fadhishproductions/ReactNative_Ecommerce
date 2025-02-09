@@ -1,5 +1,4 @@
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Share } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { 
@@ -9,10 +8,9 @@ import {
   Manrope_800ExtraBold
 } from "@expo-google-fonts/manrope";
 
-const ProductDetails = ({ variants, rating, description, name }) => {
+const ProductDetails = ({ variants, rating, description, name , scrollToSection}) => {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
-  const router = useRouter(); 
-  let [fontsLoaded] = useFonts({
+   let [fontsLoaded] = useFonts({
              Manrope_700Bold,
              Manrope_600SemiBold,
              Manrope_400Regular,
@@ -63,7 +61,7 @@ const ProductDetails = ({ variants, rating, description, name }) => {
        
         <TouchableOpacity 
           style={styles.ratingContainer} 
-          onPress={() =>router.push("/reviews")}
+          onPress={() => scrollToSection("review")}
         >
           <Text style={styles.star}>⭐</Text>
           <Text style={[styles.ratingText,{fontFamily:"Manrope_400Regular"}]}>

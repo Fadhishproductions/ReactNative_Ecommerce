@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState ,forwardRef} from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import ReviewModal from "./ReviewModal";
+import { Alert } from 'react-native'
 import { 
   useFonts,Manrope_700Bold,
   Manrope_600SemiBold,
@@ -9,7 +10,7 @@ import {
   Manrope_500Medium
 } from "@expo-google-fonts/manrope";
 
-const Reviews = ({ reviews }) => {
+const Reviews = forwardRef(({ reviews }, ref) => {
   const { summary, items, actions } = reviews;
   const [modalVisible, setModalVisible] = useState(false);
   let [fontsLoaded] = useFonts({
@@ -24,7 +25,7 @@ const Reviews = ({ reviews }) => {
     Alert.alert("Success", "Your review has been submitted!");
   };
   return (
-    <View style={styles.container}>
+    <View ref={ref} style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title,{fontFamily:"Manrope_700Bold"}]}>Reviews</Text>
@@ -96,7 +97,7 @@ const Reviews = ({ reviews }) => {
       />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -118,7 +119,6 @@ const styles = StyleSheet.create({
   addReview: {
     fontSize: 14,
     color: "#156651",
-    fontWeight: 700,
     textDecorationLine:"underline"
   },
   rateContainer:{
@@ -166,7 +166,6 @@ const styles = StyleSheet.create({
   starText: {
     width: 30,
     fontSize: 18,
-    fontWeight:500,
     color:"#6A6A6A"
    },
   barContainer: {
