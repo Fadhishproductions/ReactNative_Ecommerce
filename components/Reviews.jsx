@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import ReviewModal from "./ReviewModal";
+import { 
+  useFonts,Manrope_700Bold,
+  Manrope_600SemiBold,
+  Manrope_400Regular,
+  Manrope_800ExtraBold,
+  Manrope_500Medium
+} from "@expo-google-fonts/manrope";
 
 const Reviews = ({ reviews }) => {
   const { summary, items, actions } = reviews;
   const [modalVisible, setModalVisible] = useState(false);
-
+  let [fontsLoaded] = useFonts({
+    Manrope_700Bold,
+    Manrope_600SemiBold,
+    Manrope_400Regular,
+    Manrope_800ExtraBold,
+    Manrope_500Medium
+        });
   const handleReviewSubmit = (reviewData) => {
     console.log("Review Submitted:", reviewData);
     Alert.alert("Success", "Your review has been submitted!");
@@ -14,10 +27,10 @@ const Reviews = ({ reviews }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Reviews</Text>
+        <Text style={[styles.title,{fontFamily:"Manrope_700Bold"}]}>Reviews</Text>
         {actions.canAddReview && (
           <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text style={styles.addReview}>+ Add Review</Text>
+            <Text style={[styles.addReview,{fontFamily:"Manrope_700Bold"}]}>+ Add Review</Text>
           </TouchableOpacity>
         )}
         {/* Review Modal Component */}
@@ -33,11 +46,11 @@ const Reviews = ({ reviews }) => {
       {/* Summary */}
       <View style={[styles.summaryContainer]}>
        <View style={styles.summary}>
-        <Text style={styles.rating}>{summary.averageRating.toFixed(1)}</Text>
+        <Text style={[styles.rating,{fontFamily:"Manrope_800ExtraBold"}]}>{summary.averageRating.toFixed(1)}</Text>
         <Text style={styles.star}>★</Text>
        </View>
        <TouchableOpacity style={styles.totalReviewsButton}>
-        <Text style={styles.totalReviews}>{summary.totalReviews} reviews</Text>
+        <Text style={[styles.totalReviews,{fontFamily:"Manrope_700Bold"}]}>{summary.totalReviews} reviews</Text>
        </TouchableOpacity>
       </View>
 
@@ -47,7 +60,7 @@ const Reviews = ({ reviews }) => {
           .reverse()
           .map(([stars, count]) => (
               <View key={stars} style={styles.ratingRow}>
-              <Text style={styles.starText}>{stars}★</Text>
+              <Text style={[styles.starText,{fontFamily:"Manrope_500Medium"}]}>{stars}★</Text>
                <View style={styles.barContainer}>
                 <View
                   style={[styles.barFill, { width: `${(count / summary.totalReviews) * 100}%` }]}
@@ -65,11 +78,11 @@ const Reviews = ({ reviews }) => {
         renderItem={({ item }) => (
           <View style={styles.reviewItem}>
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>{item.author.name[0]}</Text>
+              <Text style={[styles.avatarText,{fontFamily:"Manrope_700Bold"}]}>{item.author.name[0]}</Text>
             </View>
             <View style={styles.reviewContent}>
-              <Text style={styles.author}>{item.author.name}</Text>
-              <Text style={styles.reviewText}>{item.content}</Text>
+              <Text style={[styles.author,{fontFamily:"Manrope_700Bold"}]}>{item.author.name}</Text>
+              <Text style={[styles.reviewText,{fontFamily:"Manrope_500Medium"}]}>{item.content}</Text>
             </View>
               <View style={styles.stars}>
                 {[...Array(5)].map((_, i) => (
@@ -101,7 +114,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 700,
   },
   addReview: {
     fontSize: 14,
@@ -134,8 +146,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 34,
-    fontWeight: 800,
-  },
+   },
   star: {
     fontSize: 42,
     color: "#156651",
@@ -145,7 +156,6 @@ const styles = StyleSheet.create({
   totalReviews: {
     marginLeft: 10,
     color: "#FFFFFF",
-    fontWeight:700,
     fontSize:12
   },
   ratingRow: {
@@ -188,15 +198,13 @@ const styles = StyleSheet.create({
   avatarText: {
     color: "#FFFFFF",
     fontSize: 14,
-    fontWeight: 700,
-  },
+   },
   reviewContent: {
     marginLeft: 10,
     flex: 1,
   },
   author: {
     fontSize: 14,
-    fontWeight: 700,
     color:"#050505"
   },
   stars: {

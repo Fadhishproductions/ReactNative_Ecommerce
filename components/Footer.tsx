@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import { AntDesign,Feather } from "@expo/vector-icons"; // For heart icon
+import { useFonts,Manrope_700Bold} from "@expo-google-fonts/manrope";
 
 const Footer = ({name , onWishlistPress , isWishlisted }) => {
 
     const [isLoading, setIsLoading] = useState(false);
+     
+    let [fontsLoaded] = useFonts({
+         Manrope_700Bold,
+             });
 
     const handleAddToCart = async () => {
       setIsLoading(true);
@@ -30,7 +35,7 @@ const Footer = ({name , onWishlistPress , isWishlisted }) => {
         {isLoading ? (
           <ActivityIndicator size="small" color="#fff" />
         ) : (
-          <Text style={styles.buttonText}>Add to Cart</Text>
+          <Text style={[styles.buttonText,{fontFamily:"Manrope_700Bold"}]}>Add to Cart</Text>
         )}
       </TouchableOpacity>
     </View>
@@ -83,7 +88,6 @@ button: {
 },
 buttonText: {
     color: "white",
-    fontFamily:'monrope',
     fontSize: 16,
   },
 });

@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { useFonts, Manrope_400Regular } from "@expo-google-fonts/manrope";
+import { useFonts, Manrope_700Bold } from "@expo-google-fonts/manrope";
 import * as SplashScreen from "expo-splash-screen"; // ✅ Use SplashScreen instead of AppLoading
 import { useCallback } from "react";
 import { useEffect } from "react";
 
 const BestSellerTag = () => {
   let [fontsLoaded] = useFonts({
-    Manrope_400Regular,
+    Manrope_700Bold,
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const BestSellerTag = () => {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <View style={styles.tag}>
-        <Text style={styles.text}>Best Seller</Text>
+        <Text style={[styles.text,{fontFamily:"Manrope_700Bold"}]}>Best Seller</Text>
         <View style={styles.arrow} />
       </View>
       <View style={styles.topArrow} />
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 12,
     margin: 2,
-    fontFamily: "Manrope_400Regular",  
     fontWeight: "700",
   },
   arrow: {

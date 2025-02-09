@@ -2,17 +2,28 @@ import React, { useState } from "react";
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { 
+  useFonts,Manrope_700Bold,
+  Manrope_600SemiBold,
+  Manrope_400Regular
+} from "@expo-google-fonts/manrope";
+
 
 const FrequentlyBought = ({ frequentlyBoughtWith }) => {
   const scrollX = new Animated.Value(0); // Animated value to track scroll position
   const navigation = useNavigation();
+  let [fontsLoaded] = useFonts({
+           Manrope_700Bold,
+           Manrope_600SemiBold,
+           Manrope_400Regular
+               });
   return (
     <>
       {/* Header Section */}
       <View style={styles.header}>
-        <Text style={styles.title}>Frequently bought</Text>
+        <Text style={[styles.title,{fontFamily:"Manrope_700Bold"}]}>Frequently bought</Text>
         <TouchableOpacity onPress={() => navigation.navigate("ProductsPage")}>
-          <Text style={styles.seeMore}>See More </Text>
+          <Text style={[styles.seeMore,{fontFamily:"Manrope_700Bold"}]}>See More </Text>
         </TouchableOpacity>
       </View>
     <View style={styles.container}>
@@ -31,16 +42,16 @@ const FrequentlyBought = ({ frequentlyBoughtWith }) => {
           <View style={styles.card}>
             <Image source={{ uri: item.images.primary }} style={styles.image} />
             <View style={styles.discountTag}>
-              <Text style={styles.discountText}>{item.discount}</Text>
+              <Text style={[styles.discountText,{fontFamily:"Manrope_600SemiBold"}]}>{item.discount}</Text>
             </View>
             
           <View style={styles.details}>
-            <Text style={styles.productName}>{item.name}</Text>
-            <Text style={styles.price}>${item.price.toFixed(2)}</Text>
-            <Text style={styles.originalPrice}>${item.originalPrice.toFixed(2)}</Text>
+            <Text style={[styles.productName,{fontFamily:"Manrope_400Regular"}]}>{item.name}</Text>
+            <Text style={[styles.price,{fontFamily:"Manrope_700Bold"}]}>${item.price.toFixed(2)}</Text>
+            <Text style={[styles.originalPrice,{fontFamily:"Manrope_400Regular"}]}>${item.originalPrice.toFixed(2)}</Text>
             <View style={styles.rating}>
               <Ionicons name="star" size={14} color="gold" />
-              <Text style={styles.ratingText}>
+              <Text style={[styles.ratingText,{fontFamily:"Manrope_400Regular"}]}>
                 {item.rating.score} ({item.rating.totalReviews})
               </Text>
             </View>
@@ -72,8 +83,8 @@ const FrequentlyBought = ({ frequentlyBoughtWith }) => {
 const styles = StyleSheet.create({
   container: { paddingLeft: 16,marginBottom:69},
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center",backgroundColor:"#FFFFFF",padding:16 },
-  title: { fontSize: 20, fontWeight: 700 },
-  seeMore: { color: "#156651", fontWeight: "700",fontSize:14 ,marginRight:14,textDecorationLine:"underline"},
+  title: { fontSize: 20 },
+  seeMore: { color: "#156651",fontSize:14 ,marginRight:14,textDecorationLine:"underline"},
   card: {
     width: 152,
     height: 246,
@@ -103,17 +114,17 @@ marginTop:10
     borderBottomEndRadius:10
 
   },
-  discountText: { color: "white", fontSize: 12, fontWeight: "bold" },
-  productName: { fontSize: 14, fontWeight: "400", marginTop: 5 },
+  discountText: { color: "white", fontSize: 12},
+  productName: { fontSize: 14, marginTop: 5 },
   price: { fontSize: 20, fontWeight: "700", marginTop: 3 },
   originalPrice: {
     fontSize: 12,
     textDecorationLine: "line-through",
-    color: "gray",
+    color: "#404040",
     marginTop: 2,
   },
   rating: { flexDirection: "row", alignItems: "center", marginTop: 3 },
-  ratingText: { marginLeft: 5, fontSize: 12, fontWeight: "bold" },
+  ratingText: { marginLeft: 5, fontSize: 12,color:"#404040" },
   
   // Scroll Indicator Styles
   scrollBar: {

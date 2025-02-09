@@ -2,10 +2,22 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Share } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
- 
+import { 
+  useFonts,Manrope_700Bold,
+  Manrope_600SemiBold,
+  Manrope_400Regular,
+  Manrope_800ExtraBold
+} from "@expo-google-fonts/manrope";
+
 const ProductDetails = ({ variants, rating, description, name }) => {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const router = useRouter(); 
+  let [fontsLoaded] = useFonts({
+             Manrope_700Bold,
+             Manrope_600SemiBold,
+             Manrope_400Regular,
+             Manrope_800ExtraBold
+                 });
 
   const handleShare = async () => {
     try {
@@ -28,21 +40,21 @@ const ProductDetails = ({ variants, rating, description, name }) => {
       {/* Product Details Container */}
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.productName}>{name}</Text>
+          <Text style={[styles.productName,{fontFamily:"Manrope_400Regular"}]}>{name}</Text>
           <TouchableOpacity onPress={handleShare} style={styles.iconContainer}>
             <Icon name="share-outline" size={24} color="black" />
           </TouchableOpacity>
         </View>
 
         <View style={styles.priceContainer}>
-          <Text style={styles.currentPrice}>
+          <Text style={[styles.currentPrice,{fontFamily:"Manrope_800ExtraBold"}]}>
             ${selectedVariant.price.current.toFixed(2)}
           </Text>
-          <Text style={styles.originalPrice}>
+          <Text style={[styles.originalPrice,{fontFamily:"Manrope_400Regular"}]}>
             ${selectedVariant.price.original.toFixed(2)}
           </Text>
           <View style={styles.discountTag}>
-            <Text style={styles.discountText}>
+            <Text style={[styles.discountText,{fontFamily:"Manrope_400Regular"}]}>
               {selectedVariant.price.discount}
             </Text>
           </View>
@@ -54,12 +66,12 @@ const ProductDetails = ({ variants, rating, description, name }) => {
           onPress={() =>router.push("/reviews")}
         >
           <Text style={styles.star}>⭐</Text>
-          <Text style={styles.ratingText}>
+          <Text style={[styles.ratingText,{fontFamily:"Manrope_400Regular"}]}>
             {rating.score} ({rating.totalReviews})
           </Text>
         </TouchableOpacity>
 
-        <Text style={styles.shortDescription}>{description.short}</Text>
+        <Text style={[styles.shortDescription,{fontFamily:"Manrope_400Regular"}]}>{description.short}</Text>
       </View>
 
       {/* Full-width Separator */}
@@ -67,7 +79,7 @@ const ProductDetails = ({ variants, rating, description, name }) => {
 
       {/* Color Variants */}
       <View style={styles.variableContainer}>
-        <Text style={styles.colorTitle}>Colors</Text>
+        <Text style={[styles.colorTitle,{fontFamily:"Manrope_700Bold"}]}>Colors</Text>
         <View style={styles.colorContainer}>
           {variants.map((variant, index) => (
             <TouchableOpacity
@@ -91,7 +103,7 @@ const ProductDetails = ({ variants, rating, description, name }) => {
                   borderRadius: 5,
                 }}
               />
-              <Text style={styles.colorName}>{variant.name}</Text>
+              <Text style={[styles.colorName,{fontFamily:"Manrope_400Regular"}]}>{variant.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  productName: { fontSize: 16, fontWeight: "400" },
+  productName: { fontSize: 16,},
   iconContainer: { padding: 5 },
 
   // Price & Discount
@@ -128,7 +140,6 @@ const styles = StyleSheet.create({
   currentPrice: { fontSize: 32, fontWeight: "800" },
   originalPrice: {
     fontSize: 14,
-    fontWeight: "400",
     textDecorationLine: "line-through",
     color: "#404040",
     marginLeft: 10,
@@ -148,18 +159,15 @@ const styles = StyleSheet.create({
   star: { fontSize: 12 },
   ratingText: { fontSize: 12, marginLeft: 5, fontWeight: "400" },
 
-  // Description
-  shortDescription: { fontSize: 16, color: "#404040", marginTop: 10, fontWeight: "400" },
+   shortDescription: { fontSize: 16, color: "#404040", marginTop: 10, },
 
-  // Full-width Separator
-  fullWidthSeparator: {
+   fullWidthSeparator: {
     height: 1,
-    backgroundColor: "#F5F5F5", // Light grey background
-    width: "100%", // Ensure it spans the full screen width
+    backgroundColor: "#F5F5F5", 
+    width: "100%",  
   },
 
-  // Color Variants
-  colorTitle: { fontSize: 18, fontWeight: "700", marginTop: 15 },
+   colorTitle: { fontSize: 18},
   colorContainer: { flexDirection: "row", flexWrap: "wrap", marginTop: 10 },
   colorOption: {
     width: "45%",
@@ -170,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFFFFF",
   },
-  colorName: { fontSize: 14, fontWeight: "400", color: "#404040" },
+  colorName: { fontSize: 14, color: "#404040" },
 });
 
 export default ProductDetails;

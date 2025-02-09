@@ -6,12 +6,18 @@ import ProductImageGallery from "@/components/ProductImageGallery";
 import Reviews from "@/components/Reviews";
 import React, { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { useFonts, Manrope_400Regular } from "@expo-google-fonts/manrope";
 
 const Index = () => {
   const [product, setProduct] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isWishlisted,setIswishlisted] = useState(false)
+  
+  let [fontsLoaded] = useFonts({
+      Manrope_400Regular,
+    });
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,8 +28,7 @@ const Index = () => {
         }
 
         const data = await response.json();
-        console.log("API Response:", JSON.stringify(data, null, 2));
-        setProduct(data.product);
+         setProduct(data.product);
       } catch (err: any) {
         setError(err.message);
         console.error("API error:", err);
@@ -37,13 +42,13 @@ const Index = () => {
 
   return (
     <>
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView contentContainerStyle={[styles.scrollViewContainer, ]}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
         ) : error ? (
-          <Text style={styles.errorText}>Error: {error}</Text>
+          <Text style={[styles.errorText,{fontFamily: "Manrope_400Regular",}]}>Error: {error}</Text>
         ) : product ? (
-          <>
+          <> 
             <ProductImageGallery
               images={product.images}
               isBestSeller={Array.isArray(product.tags) && product.tags.includes("Best Seller")}
