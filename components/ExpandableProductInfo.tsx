@@ -35,13 +35,13 @@ const ExpandableProductInfo = ({ description, dimensions }) => {
        </TouchableOpacity>
       {sizeExpanded && (
         <View style={styles.sizeContainer}>
-          {Object.entries(dimensions).map(([key, value]) => (
-            <View key={key} style={styles.sizeItem}>
-              <Text style={styles.label}>{formatKey(key)}</Text>
-              <Text style={styles.value}>{value}</Text>
-            </View>
-          ))}
-          {descExpanded && (
+          {Object.entries(dimensions).map(([key, value], index, array) => (
+      <View key={key} style={[styles.sizeItem, index === array.length - 1 && { borderBottomWidth: 0 }]}>
+        <Text style={styles.label}>{formatKey(key)}</Text>
+        <Text style={styles.value}>{value}</Text>
+      </View>
+    ))}
+          {sizeExpanded && (
         <>
            <Image
             source={{ uri: description.image.url }}
@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
   },
   label: {
     fontSize: 14,

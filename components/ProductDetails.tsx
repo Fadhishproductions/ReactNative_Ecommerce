@@ -1,9 +1,11 @@
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Share } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-
+ 
 const ProductDetails = ({ variants, rating, description, name }) => {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const router = useRouter(); 
 
   const handleShare = async () => {
     try {
@@ -46,12 +48,16 @@ const ProductDetails = ({ variants, rating, description, name }) => {
           </View>
         </View>
 
-        <View style={styles.ratingContainer}>
+       
+        <TouchableOpacity 
+          style={styles.ratingContainer} 
+          onPress={() =>router.push("/reviews")}
+        >
           <Text style={styles.star}>⭐</Text>
           <Text style={styles.ratingText}>
             {rating.score} ({rating.totalReviews})
           </Text>
-        </View>
+        </TouchableOpacity>
 
         <Text style={styles.shortDescription}>{description.short}</Text>
       </View>
